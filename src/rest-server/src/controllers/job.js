@@ -16,6 +16,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // module dependencies
+const url = require('url');
 const Job = require('../models/job');
 const createError = require('../util/error');
 const logger = require('../config/logger');
@@ -98,9 +99,15 @@ const update = (req, res, next) => {
     if (err) {
       return next(createError.unknown(err));
     } else {
-      return res.status(202).json({
-        message: `update job ${name} successfully`,
-      });
+      return res.status(202)
+        .location(url.format({
+          protocol: req.protocol,
+          host: req.get('Host'),
+          pathname: req.baseUrl + '/' + name,
+        }))
+        .json({
+          message: `update job ${name} successfully`,
+        });
     }
   });
 };
