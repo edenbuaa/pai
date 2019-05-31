@@ -8,3 +8,6 @@ RUN pip install torch torchvision
 
 # clone PyTorch examples
 RUN git clone https://github.com/pytorch/examples.git
+
+# install python hdfs client
+RUN pip install hdfs && pip3 install hdfs
